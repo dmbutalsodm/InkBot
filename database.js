@@ -1,6 +1,19 @@
-function sync() {
-     var sqlite3 = require('sqlite3').verbose();
-    var db = new sqlite3.Database(':memory:');
-}
+const sqlite = require('sqlite');
 
-modules.export = sync;
+var db;
+
+module.exports = {
+	get: () => {
+		return db;
+	},
+	sync: async () => {
+		new Promise((resolve, reject) => {
+			sqlite.open('./data.sqlite').then(database => {
+				db = database;
+				resolve(database);
+			}).catch((err) => {
+				reject(err);
+			});
+		});
+	}
+};

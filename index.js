@@ -1,20 +1,24 @@
-//setup block
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(':memory:');
-const secure = require('./secure.json');
+const path     = require('path');
+const secure   = require('./secure.json');
+const database = require('./database.js');
+
 const { CommandoClient } = require('discord.js-commando');
-const path = require('path');
-const client = new CommandoClient({
-    owner: '147604925612818432',
-    commandPrefix: '1',
+
+const Ink = new CommandoClient({
+    owner: ['296895991985078272', '147604925612818432'],
+    commandPrefix: ',',
     disableEveryone: true
 });
 
 //await db.run("CREATE TABLE IF NOT EXISTS roles (role TEXT);");
 //db.run("INSERT INTO roles (role) VALUES (test);");
+var db;
+database.sync().then(database => {
+	db = database;
+	start();
+});
 
-
-client.registry
+Ink.registry
     .registerDefaultTypes()
     .registerGroups([
         ['fun', 'Commands that\'re for fun and don\'t do anything important.'],
@@ -26,8 +30,11 @@ client.registry
     .registerCommandsIn(path.join(__dirname, 'commands'));
 
     
-client.on(`ready`, () => {
+Ink.on(`ready`, () => {
     console.log(`I\'m ready and excited to be alive!!!`); //when the boye is ready he lets us know
-    client.user.setGame('안녕하세요 송서연!!!!');
+    Ink.user.setGame('안녕하세요 송서연!!!!');
 });
-client.login(secure.token) //logs the bot in obv lmao
+
+function start() {
+	Ink.login(secure.token) //logs the bot in obv lmao
+}
