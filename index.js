@@ -1,6 +1,6 @@
 //setup block
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(':memory:');
+const sqlite = require('sqlite3').verbose();
+var db = new sqlite.Database(':memory:');
 const secure = require('./secure.json');
 const { CommandoClient } = require('discord.js-commando');
 const path = require('path');
@@ -10,8 +10,8 @@ const client = new CommandoClient({
 	disableEveryone: true
 });
 
-//await db.run("CREATE TABLE IF NOT EXISTS roles (role TEXT);");
-//db.run("INSERT INTO roles (role) VALUES (test);");
+await db.run("CREATE TABLE IF NOT EXISTS roles (role TEXT);");
+db.run("INSERT INTO roles (role) VALUES (test);");
 
 
 client.registry
