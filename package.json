@@ -1,0 +1,16 @@
+{
+  "name": "commandobot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^11.1.0",
+    "discord.js-commando": "git://github.com/Gawdl3y/discord.js-commando.git#11.1",
+    "sqlite3": "^3.1.8"
+  }
+}
