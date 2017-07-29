@@ -1,5 +1,6 @@
 const { Command } = require('discord.js-commando');
-const database = require('../../database.js').get();
+const database = require('../../database.js');
+
 
 module.exports = class SayCommand extends Command {
 	constructor(client) {
@@ -26,15 +27,18 @@ module.exports = class SayCommand extends Command {
 
 	async run(msg,args) {
 		const { option,role } = args;
+		var db = database.get();
 		if(msg.member.permissions.has("MANAGE_ROLES")){
 			switch(option.toLowerCase()){
 				case "add":
-				msg.say("boy says add");
-				msg.say(role.name);
-				break;
+					await db.run(`CREATE TABLE IF NOT EXISTS roles${msg.guild.id} (roleID STRING)`);
+					db.run(`INSERT INTO roles${msg.guild.id} (roleID) VALUES ('${role.id}d');`);
+					msg.say(`The role '${role.name}' is now available to subscribe to.`);
+					break;
 				case "remove":
-				msg.say("boy says remove");
-				break;
+					db.run(`DELETE FROM roles${msg.guild.id} WHERE roleID='${role.id}'`);
+					msg.say(`The role '${role.name}' is no longer available to subscribe to.`);
+					break;
 				default: msg.say("That isn't a valid option.");
 			}
 		} else {msg.say("You don't have permission for this! (Manage_roles)")}
