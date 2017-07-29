@@ -10,9 +10,6 @@ const Ink = new CommandoClient({
     disableEveryone: true
 });
 
-//await db.run("CREATE TABLE IF NOT EXISTS roles (role TEXT);");
-//db.run("INSERT INTO roles (role) VALUES (test);");
-
 start();
 
 Ink.registry
@@ -33,6 +30,6 @@ Ink.on(`ready`, () => {
 });
 
 async function start() {
-	var db = await database.sync();
+	await database.sync();
 	Ink.login(secure.token) //logs the bot in obv lmao
 }
