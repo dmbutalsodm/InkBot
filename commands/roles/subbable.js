@@ -1,11 +1,12 @@
 const { Command } = require('discord.js-commando');
+const database = require('../../database.js').get();
 
 module.exports = class SayCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'subable',
 			group: 'roles',
-			memberName: 'subable',
+			memberName: 'subable', 
 			description: 'Used to manage which roles are subscribable.',
 			examples: ['subable add [role name]'],
 			args:[
@@ -26,10 +27,10 @@ module.exports = class SayCommand extends Command {
 	async run(msg,args) {
 		const { option,role } = args;
 		if(msg.member.permissions.has("MANAGE_ROLES")){
-			switch(option){
+			switch(option.toLowerCase()){
 				case "add":
 				msg.say("boy says add");
-				db.run()
+				msg.say(role.name);
 				break;
 				case "remove":
 				msg.say("boy says remove");
