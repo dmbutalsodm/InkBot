@@ -12,11 +12,8 @@ const Ink = new CommandoClient({
 
 //await db.run("CREATE TABLE IF NOT EXISTS roles (role TEXT);");
 //db.run("INSERT INTO roles (role) VALUES (test);");
-var db;
-database.sync().then(database => {
-	db = database;
-	start();
-});
+
+start();
 
 Ink.registry
     .registerDefaultTypes()
@@ -32,9 +29,10 @@ Ink.registry
     
 Ink.on(`ready`, () => {
     console.log(`I\'m ready and excited to be alive!!!`); //when the boye is ready he lets us know
-    Ink.user.setGame('안녕하세요 송서연!!!!');
+    Ink.user.setGame('South Side $uicide');
 });
 
-function start() {
+async function start() {
+	var db = await database.sync();
 	Ink.login(secure.token) //logs the bot in obv lmao
 }

@@ -7,13 +7,14 @@ module.exports = {
 		return db;
 	},
 	sync: async () => {
-		new Promise((resolve, reject) => {
-			sqlite.open('./data.sqlite').then(database => {
-				db = database;
-				resolve(database);
-			}).catch((err) => {
-				reject(err);
-			});
+		new Promise(async (resolve, reject) => {
+			try {
+				db = await sqlite.open('./data.sqlite');
+				await db.run("CREATE TABLE IF NOT EXISTS roles (test STRING)");
+				resolve(db);
+			} catch (ex) {
+				reject(ex);
+			}
 		});
 	}
 };
