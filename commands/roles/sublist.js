@@ -5,18 +5,11 @@ const database = require('../../database.js');
 module.exports = class SayCommand extends Command {
 	constructor(client) {
 		super(client, {
-			name: 'sub',
+			name: 'sublist',
 			group: 'roles',
-			memberName: 'sub', 
-			description: 'Used to subscribe to a role.',
-			examples: ['sub [role name]'],
-			args:[
-				{
-					key: 'role',
-					prompt: 'Which role would you like to add?',
-					type: 'role'
-				}
-			]
+			memberName: 'sublist', 
+			description: 'Used to list roles you can subscribe to.',
+			examples: ['sublist'],
 		});
 	}
 	
@@ -25,12 +18,7 @@ module.exports = class SayCommand extends Command {
 		var db = database.get();
 		var roleList = await db.all(`SELECT roleID FROM roles WHERE guildID = '${msg.guild.id}d'`); //gets all the roles that're in the table from this guild as an object
 		roleList = roleList.map((x) => {return x.roleID}); //turns the objects to just an an array with role IDs
-		
-		if(!roleList.includes(role.id+'d')) return msg.say("You cannot subscribe to this role!");
-		msg.member.addRole(role.id).then(() => {
-			return msg.say(`You've subscribed to ${role.name}.`);
-		}).catch((x) => {
-			return msg.say('I don\'t have permission for that!');
-		});
+        roleList = roleList.map((x) => {return msg.guild.roles.get(x.substring(0,x.length-1)).name});
+		msg.say(`The roles you can subscribe to in **${msg.guild.name}** are: \`\`\`${roleList.join(", ")}\`\`\``);
 	}
 };
