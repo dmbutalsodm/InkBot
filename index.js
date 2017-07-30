@@ -6,7 +6,7 @@ const { CommandoClient } = require('discord.js-commando');
 
 const Ink = new CommandoClient({
     owner: ['296895991985078272', '147604925612818432'],
-    commandPrefix: ',',
+    commandPrefix: '1',
     disableEveryone: true
 });
 

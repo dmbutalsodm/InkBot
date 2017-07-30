@@ -31,12 +31,13 @@ module.exports = class SayCommand extends Command {
 		if(msg.member.permissions.has("MANAGE_ROLES")){
 			switch(option.toLowerCase()){
 				case "add":
-					await db.run(`CREATE TABLE IF NOT EXISTS roles${msg.guild.id} (roleID STRING)`);
-					db.run(`INSERT INTO roles${msg.guild.id} (roleID) VALUES ('${role.id}d');`);
+					var testForRoleInDB = await db.all(`SELECT roleID FROM roles WHERE roleID = '${role.id}d' AND guildID = '${msg.guild.id}d';`);
+					if(testForRoleInDB.length > 0) return msg.say("This role is already subscribable!");
+					db.run(`INSERT INTO roles (roleID, guildID) VALUES ('${role.id}d', '${msg.guild.id}d');`);
 					msg.say(`The role '${role.name}' is now available to subscribe to.`);
 					break;
 				case "remove":
-					db.run(`DELETE FROM roles${msg.guild.id} WHERE roleID='${role.id}'`);
+					db.run(`DELETE FROM roles WHERE roleID='${role.id}d' AND guildID = '${msg.guild.id}d';`);
 					msg.say(`The role '${role.name}' is no longer available to subscribe to.`);
 					break;
 				default: msg.say("That isn't a valid option.");
