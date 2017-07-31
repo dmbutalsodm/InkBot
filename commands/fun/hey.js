@@ -6,7 +6,7 @@ module.exports = class ReplyCommand extends Command {
             name: 'hey',
             group: 'fun',
             memberName: 'hey',
-            description: 'Literally says hey\n'
+            description: 'See if Ink is online.'
         });
     }
 

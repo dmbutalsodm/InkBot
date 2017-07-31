@@ -15,9 +15,11 @@ start();
 Ink.registry
     .registerDefaultTypes()
     .registerGroups([
-        ['fun', 'Commands that\'re for fun and don\'t do anything important.'],
-        ['owner', 'Commands reserved for the owner of the bot.'], //hype
-        ['roles','Commands related to managing roles.']
+        ['fun', 'Fun commands'],
+        ['roles','Role commands'],
+        ['moderation','Moderation commands'],
+        ['search','Search commands'],
+        ['owner', 'Owner commands']
     ])
     .registerDefaultGroups()
     .registerDefaultCommands() //default commands like help and a bunch of other garbage
