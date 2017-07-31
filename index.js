@@ -28,7 +28,7 @@ Ink.registry
     
 Ink.on(`ready`, () => {
     console.log(`I\'m ready and excited to be alive!!!`); //when the boye is ready he lets us know
-    Ink.user.setGame('South Side $uicide');
+    Ink.user.setGame('20 years and it seem like a lifetime.');
 });
 
 async function start() {
