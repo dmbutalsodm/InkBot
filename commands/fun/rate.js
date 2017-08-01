@@ -21,7 +21,8 @@ module.exports = class ReplyCommand extends Command {
 	async run(msg,args) {
         const { query } = args;
         var str = query.replace(/[!?,./\\[]]/g,'');
+        if(str == "") return msg.say(`I rate **${query}** a straight zero.`);
         str=str.split('').map(x => x.charCodeAt()).reduce((a,b)=>a+b);
-        msg.say(`I rate **${query}** a ${str%11}/10.`);
+        msg.say(`I rate **${query}**... ${str%11}/10.`);
 	}
 };
