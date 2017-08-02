@@ -10,6 +10,7 @@ module.exports = class SayCommand extends Command {
 			memberName: 'sublist', 
 			description: 'Used to list roles you can subscribe to.',
 			examples: ['sublist'],
+			guildOnly: true,
 		});
 	}
 	

@@ -10,6 +10,7 @@ module.exports = class SayCommand extends Command {
 			memberName: 'sub', 
 			description: 'Used to subscribe to a role.',
 			examples: ['sub [role name]'],
+			guildOnly: true,
 			args:[
 				{
 					key: 'role',

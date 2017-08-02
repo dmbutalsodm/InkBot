@@ -10,6 +10,7 @@ module.exports = class SayCommand extends Command {
 			memberName: 'subable', 
 			description: 'Used to manage which roles are subscribable.',
 			examples: ['subable add [role name]'],
+			guildOnly: true,
 			args:[
 					{
 						key: 'option',
