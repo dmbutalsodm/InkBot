@@ -50,10 +50,10 @@ async function start() {
 }
 
 Ink.on('message', async (message) => {
+    if(message.author.bot) return;
     var reactionObject = customReactionsArray.find(obj => {
         return (obj.guildID.substring(0,obj.guildID.length-1) == message.guild.id) && (obj.trigger == message.content);
     });
     if(!reactionObject) return;
-    if(message.author.id == '328716679171276800') return;
     message.channel.send(reactionObject.content);
 });
