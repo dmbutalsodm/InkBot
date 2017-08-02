@@ -10,8 +10,8 @@ module.exports = class ReplyCommand extends Command {
         });
     }
 
-	async run(msg) {
-		var greetings = {
+	async run(msg) { //Returns a random greeting from a pre-determined object.
+		var greetings = { 
 			0: 'Hello!',
             1: 'Hi!',
             2: 'Hey there!',

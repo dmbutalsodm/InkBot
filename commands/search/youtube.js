@@ -22,5 +22,5 @@ module.exports = class ReplyCommand extends Command {
 	async run(msg,args) {
         const { query } = args;
         youtube.searchVideos(query,1).then(results => msg.say(`Here's the video I found:\nhttps://www.youtube.com/watch?v=${results[0].id}`)).catch(console.log());
-	}
+	} //The API doesn't give a legit link, only ID, so the link is created and the ID appended.
 };

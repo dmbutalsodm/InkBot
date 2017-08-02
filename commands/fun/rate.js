@@ -18,10 +18,10 @@ module.exports = class ReplyCommand extends Command {
         });
     }
 
-	async run(msg,args) {
+	async run(msg,args) { //Rates an object between 1 and 10.
         const { query } = args;
-        var str = query.replace(/[!?,./\\[]]/g,'');
-        if(str == "") return msg.say(`I rate **${query}** a straight zero.`);
+        var str = query.replace(/[!?,./\\[]]/g,''); //Removes punctuation.
+        if(str == "") return msg.say(`I rate **${query}** a straight zero.`); //After removing punctuation, if the query is empty, return this msg.
         str=str.split('').map(x => x.charCodeAt()).reduce((a,b)=>a+b);
         msg.say(`I rate **${query}**... ${str%11}/10.`);
 	}

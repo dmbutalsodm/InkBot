@@ -23,7 +23,7 @@ module.exports = class SayCommand extends Command {
 		});    
 	}
 
-	async run(msg, args) {
+	async run(msg, args) { //DMs the mentioned user the written content.
 		const {user, content} = args;
 		if(msg.author.id == `147604925612818432`){
 			msg.delete();

@@ -20,10 +20,10 @@ module.exports = class ReplyCommand extends Command {
 
 	async run(msg,args) {
         const { query } = args;
-        google.resultsPerPage = 1
+        google.resultsPerPage = 1 //Grabs only one result from google.
         google(`${query} site:genius.com`, function (err, res){
             if(err) console.error(err)
-            msg.say(`Here's what I found:\n${res.links[0].link}`);
+            msg.say(`Here's what I found:\n${res.links[0].link}`); //Says the the link from the search object.
         });
 	}
 };
