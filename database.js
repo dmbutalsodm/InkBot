@@ -1,7 +1,6 @@
 const sqlite = require('sqlite');
 
 var db;
-var customReactionsArray;
 
 module.exports = {
 	get: () => {
