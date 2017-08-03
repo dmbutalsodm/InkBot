@@ -12,6 +12,7 @@ module.exports = {
 				db = await sqlite.open('./data.sqlite');
 				await db.run("CREATE TABLE IF NOT EXISTS roles (guildID STRING, roleID STRING);");
 				await db.run("CREATE TABLE IF NOT EXISTS customreactions (guildID STRING, trigger STRING, content STRING);");
+				await db.run("CREATE TABLE IF NOT EXISTS channelbans (guildID STRING, channelID STRING);");
 				resolve(db);
 			} catch (ex) {
 				reject(ex);

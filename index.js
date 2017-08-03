@@ -10,6 +10,13 @@ module.exports = {
     },
     rebuildCustomReactionsArray: async () => {
         customReactionsArray = await database.customReactionDatabaseSync();
+    },
+    canInkSpeak: async (channelID,guildID) => {
+        var db = database.get(); //No idea what this does.
+        test = await db.all(`SELECT * FROM channelbans WHERE guildID = '${guildID}d' AND channelID = '${channelID}d';`); //If the channel exists in the db, say ink cant speak.
+        if(test.length > 0) return false;
+        return true;
+        
     }
 }
 

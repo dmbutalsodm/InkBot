@@ -1,5 +1,6 @@
 const google  = require('google');
 const { Command } = require('discord.js-commando');
+const index = require('../../index.js');
 
 module.exports = class ReplyCommand extends Command {
     constructor(client) {
@@ -19,6 +20,8 @@ module.exports = class ReplyCommand extends Command {
     }
 
 	async run(msg,args) {
+        if(await index.canInkSpeak(msg.channel.id,msg.guild.id) == false) msg.react('❌'); return; //Channel ban check
+
         const { query } = args;
         google.resultsPerPage = 1 //Grabs only one result from google.
         google(`${query} site:genius.com`, function (err, res){

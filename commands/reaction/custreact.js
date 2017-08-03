@@ -2,6 +2,7 @@ const { Command } = require('discord.js-commando');
 const database    = require('../../database.js');
 const index       = require('../../index.js');
 
+
 module.exports = class ReplyCommand extends Command {
 	constructor(client) {
 		super(client, {
@@ -14,7 +15,8 @@ module.exports = class ReplyCommand extends Command {
 				{
 					key: 'option',
 					prompt: 'Would you like to add or remove a subscribable role?',
-					type: 'string'
+					type: 'string',
+					default: ''
 				},
 				{
 					key: "trigger",
@@ -33,9 +35,11 @@ module.exports = class ReplyCommand extends Command {
 	}
 
 	async run(msg,args) {
+        if(await index.canInkSpeak(msg.channel.id,msg.guild.id) == false) {msg.react('❌'); return;} //Channel ban check
+
 		const { option,trigger,content } = args;
 		var db = database.get();
-
+		if(option == '') return msg.say("You must select an option...");
 		switch(option.toLowerCase()){ 
 				case "add":
 					if(content == ''  || trigger == '') return msg.say("Your reaction content can't be empty..."); //Because of default arguments, detecting an empty trigger or content when adding is necessary.

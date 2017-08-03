@@ -1,4 +1,5 @@
 const { Command } = require('discord.js-commando');
+const index = require('../../index.js');
 
 module.exports = class ReplyCommand extends Command {
     constructor(client) {
@@ -11,7 +12,9 @@ module.exports = class ReplyCommand extends Command {
     }
 
 	async run(msg) { //Returns a random greeting from a pre-determined object.
-		var greetings = { 
+        if(await index.canInkSpeak(msg.channel.id,msg.guild.id) == false) {msg.react('❌'); return;} //Channel ban check
+
+        var greetings = { 
 			0: 'Hello!',
             1: 'Hi!',
             2: 'Hey there!',

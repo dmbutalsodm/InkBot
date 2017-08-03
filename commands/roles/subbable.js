@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 const database = require('../../database.js');
-
+const index = require('../../index.js');
 
 module.exports = class SayCommand extends Command {
 	constructor(client) {
@@ -27,6 +27,8 @@ module.exports = class SayCommand extends Command {
 	}
 
 	async run(msg,args) {
+        if(await index.canInkSpeak(msg.channel.id,msg.guild.id) == false) {msg.react('❌'); return;} //Channel ban check
+
 		const { option,role } = args;
 		var db = database.get(); //Literally no idea what this does, Lex.
 		if(msg.member.permissions.has("MANAGE_ROLES")){ //If the user can manage roles, the command is executed.

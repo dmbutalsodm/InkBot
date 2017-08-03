@@ -1,6 +1,6 @@
 const { Command } = require('discord.js-commando');
 const database = require('../../database.js');
-
+const index = require('../../index.js');
 
 module.exports = class SayCommand extends Command {
 	constructor(client) {
@@ -22,6 +22,8 @@ module.exports = class SayCommand extends Command {
 	}
 	
 	async run(msg,args) {
+        if(await index.canInkSpeak(msg.channel.id,msg.guild.id) == false) {msg.react('❌'); return;} //Channel ban check
+
 		const { role } = args;
 		var db = database.get();
 		var roleList = await db.all(`SELECT roleID FROM roles WHERE guildID = '${msg.guild.id}d'`); //Gets all the roles that're in the table from this guild as an object
