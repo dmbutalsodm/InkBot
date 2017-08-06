@@ -4,8 +4,6 @@ const database           = require('./database.js');
 const { CommandoClient } = require('discord.js-commando');
 var db = database.get();
 
-
-
 module.exports = {
 	customReactionsArrayPush: async (obj) => {
 		customReactionsArray.push(obj);
@@ -23,7 +21,7 @@ module.exports = {
 
 const Ink = new CommandoClient({
 	owner: ['296895991985078272', '147604925612818432'],
-	commandPrefix: secure.beta ? secure.prefix : "1",
+	commandPrefix: secure.betaObject ? secure.betaObject.prefix : "1",
 	disableEveryone: true,
 	unknownCommandResponse: false,
 });
