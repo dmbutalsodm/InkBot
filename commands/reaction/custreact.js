@@ -35,8 +35,6 @@ module.exports = class ReplyCommand extends Command {
 	}
 
 	async run(msg,args) {
-        if(await index.canInkSpeak(msg.channel.id,msg.guild.id) == false) {msg.react('❌'); return;} //Channel ban check
-
 		const { option,trigger,content } = args;
 		var db = database.get();
 		if(option == '') return msg.say("You must select an option...");

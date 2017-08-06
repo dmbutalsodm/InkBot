@@ -22,8 +22,6 @@ module.exports = class SayCommand extends Command {
 	}
 	
 	async run(msg,args) {
-        if(await index.canInkSpeak(msg.channel.id,msg.guild.id) == false) {msg.react('❌'); return;} //Channel ban check
-
 		const { role,list } = args;
 		var db = database.get();
 		var roleList = await db.all(`SELECT roleID FROM roles WHERE guildID = '${msg.guild.id}d'`); //Grabs all the roles in the db from this guild as an object.

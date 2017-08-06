@@ -22,5 +22,9 @@ module.exports = {
 	customReactionDatabaseSync: async () => {
 		var CRA = await db.all(`SELECT * FROM customreactions;`);
 		return CRA;
+	},
+	channelBansDatabaseSync: async () => {
+		var CBA = 	await db.all(`SELECT * FROM channelbans;`);
+		return CBA;
 	}
 };

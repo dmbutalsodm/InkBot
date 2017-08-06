@@ -12,9 +12,7 @@ module.exports = class ReplyCommand extends Command {
 		});
 	}
 
-	async run(msg) { //Youtube, Spotify, and Genius links for XO TOUR Llif3
-        if(await index.canInkSpeak(msg.channel.id,msg.guild.id) == false) {msg.react('❌'); return;} //Channel ban check
-		
+	async run(msg) { //Youtube, Spotify, and Genius links for XO TOUR Llif3		
 		return msg.say(`Here you go! \n`+
 		`<https://www.youtube.com/watch?v=Zgmvg-zzctI> \n`+
 		`<https://open.spotify.com/track/2eMwDehkIC1j68U6FA3Eiq>\n`+

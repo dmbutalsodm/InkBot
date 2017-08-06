@@ -19,8 +19,6 @@ module.exports = class ReplyCommand extends Command {
     }
 
 	async run(msg,args) { //Rates an object between 1 and 10.
-        if(await index.canInkSpeak(msg.channel.id,msg.guild.id) == false) {msg.react('❌'); return;} //Channel ban check
-
         const { query } = args;
         var str = query.replace(/[!?,./\\[]]/g,''); //Removes punctuation.
         if(str == "") return msg.say(`I rate **${query}** a straight zero.`); //After removing punctuation, if the query is empty, return this msg.
