@@ -20,6 +20,7 @@ module.exports = class ReplyCommand extends Command {
 			3: `In Korean, both 아니요 and 아니 mean no, but the first is a more polite way of saying it.`,
 			4: `요 is called the 'politeness particle', and is appended to the end of words and phrases to make them more polite.`,
 			5: `세요 means please in Korean.`,
+			6: `만 is a sentence particle that means "only". You use it after nouns.`
 		}
 		var random = Math.floor(Math.random() * (Object.keys(facts).length));
 		msg.say(`**Fun fact ${random+1} of ${Object.keys(facts).length}**:\n${facts[random]}`);

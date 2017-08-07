@@ -1,6 +1,7 @@
 const { Command } = require('discord.js-commando');
+const secure = require('../../secure.json')
 const YouTube = require('simple-youtube-api');
-const youtube = new YouTube('AIzaSyDKeY8mQD5p4SVb1jH7zkasxZm8IWB1oK4');
+const youtube = new YouTube(secure.apiTokens.youtube);
 const index = require('../../index.js');
 
 module.exports = class ReplyCommand extends Command {

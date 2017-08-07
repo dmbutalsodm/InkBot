@@ -49,8 +49,8 @@ Ink.on(`ready`, async () => {
 	//These are for caches.
 	customReactionsArray = await database.customReactionDatabaseSync();
 	channelBansArray     = await database.channelBansDatabaseSync();
-	Ink.user.setGame('20 years and it seem like a lifetime.');
-	console.log(`I\'m literally so done existing!!!`); //when the boye is ready he lets us know
+	Ink.user.setGame('Pilot Iroshizuku Kon-Peki');
+	console.log(`I\'m feeling great and ready exist!!!`); //when the boye is ready he lets us know
 });
 
 async function start() {

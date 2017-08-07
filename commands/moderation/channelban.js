@@ -14,6 +14,8 @@ module.exports = class ReplyCommand extends Command {
 	}
 
 	async run(msg) { 
+		if(!msg.member.hasPermission("MANAGE_MESSAGES")) return msg.say("You don't have permission to manage messages!"); //if they dont have permission the command isnt run
+
 		var db = database.get(); //Still no idea, Lex.
 		var test = await db.all(`SELECT channelID FROM channelbans WHERE guildID = '${msg.guild.id}d' AND channelID = '${msg.channel.id}d';`) //Check if Ink is already banned in this channel
 		if(test.length == 0) { //by testing if it exists first we can make a toggle command, this is the does-not-exist response
