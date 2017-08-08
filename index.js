@@ -2,7 +2,7 @@ const path               = require('path');
 const secure             = require('./secure.json');
 const database           = require('./database.js');
 const { CommandoClient } = require('discord.js-commando');
-var db = database.get();
+const db = database.get();
 const inks = require('./inks.js');
 
 module.exports = {
@@ -72,7 +72,8 @@ Ink.on('message', async (message) => {
 
 Ink.dispatcher.addInhibitor(msg => { //the inhibitor will allow commands if it gets returned 'false' but if it gets 'true' the command is blocked.
 	if(msg.command){	
-		if((msg.command.name == 'channelban' || msg.channel.type == 'dm' ) || msg.command.name == 'eval')  return false; //DMs and the commands eval and channelban will ignore the command block.
+		if(msg.command.name == 'channelban') return false; //The channelban is automatically allowed to pass
+		if(Array.from(Ink.registry.groups.get("owner").commands.keys()).includes(msg.command.name)) return false; //Owner commands are automatically allowed to pass.
 		var test = channelBansArray.find(obj => { //cache from the db of channelbans.
 			if(obj.guildID == `${msg.guild.id}d` || obj.channelID == `${msg.channel.id}d`) return obj; //if the object exists in the array this finds it and returns it
 		});
