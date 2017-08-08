@@ -853,18 +853,20 @@ links = links.split(/\n/);
 //
 
 
+var inks = {}; //empty object
 
 module.exports = {
 
     inkSearch: async (query) => {
-        var inks = {}; //empty object
+        var results = fuzzy.filter(query, Object.keys(inks)); //Searches the array of keys with the query and sets it to a variable
+        if(!results[0]) return "Couldn't find an ink by that name, try using less words or removing puncuation, or it may not be in the database yet."; //If the variable is empty...
+        var final = results[0].original; //Final is the name of the key in the 'inks' object.
+        return [final, inks[final]]; //Which makes inks[final] equal to the link to the ink.
+    },
+    inkDBBuild: () => {
         for(let i = 0;i<names.length;i++) {
             inks[names[i]] = links[i]; //Grabs the first item in 'names', and makes that the key to the first link, then second, etc. Brackets are used for dynamic notation.
         }
-        var results = fuzzy.filter(query, Object.keys(inks)); //Searches the array of keys with the query and sets it to a variable
-        if(!results[0]) return "Couldn't find an ink by that name, try using less words or removing puncuation."; //If the variable is empty...
-        var final = results[0].original; //Final is the name of the key in the 'inks' object.
-        return [final, inks[final]]; //Which makes inks[final] equal to the link to the ink.
     }
     
 }

@@ -3,6 +3,7 @@ const secure             = require('./secure.json');
 const database           = require('./database.js');
 const { CommandoClient } = require('discord.js-commando');
 var db = database.get();
+const inks = require('./inks.js');
 
 module.exports = {
 	customReactionsArrayPush: async (obj) => {
@@ -51,6 +52,7 @@ Ink.on(`ready`, async () => {
 	customReactionsArray = await database.customReactionDatabaseSync();
 	channelBansArray     = await database.channelBansDatabaseSync();
 	Ink.user.setGame('Pilot Iroshizuku Kon-Peki');
+	inks.inkDBBuild();
 	console.log(`I\'m feeling great and ready exist!!!`); //when the boye is ready he lets us know
 });
 

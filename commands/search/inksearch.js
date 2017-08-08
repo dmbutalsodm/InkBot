@@ -24,6 +24,7 @@ module.exports = class ReplyCommand extends Command {
 	async run(msg,args) {     
         const { query } = args;
         var inky = await inkFinder.inkSearch(query);
-        msg.say(`**${inky[0]}**\n${inky[1]}`);
+        if(typeof(inky) == 'object') return msg.say(`**${inky[0]}**\n${inky[1]}`);
+        msg.say(inky);
     }
 };

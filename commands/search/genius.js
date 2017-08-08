@@ -27,7 +27,7 @@ module.exports = class ReplyCommand extends Command {
         const { query } = args; 
         genius.search(query).then(function(response) {
             var bangbang = response.hits[0].result;
-            msg.say(`${bangbang.full_title}:\nhttps://genius.com${bangbang.path}`);
+            msg.say(`**${bangbang.full_title}**:\nhttps://genius.com${bangbang.path}`);
         }).catch(reason => console.log(reason));
     }
 };
