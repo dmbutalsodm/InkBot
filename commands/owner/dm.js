@@ -26,9 +26,8 @@ module.exports = class SayCommand extends Command {
 
 	async run(msg, args) { //DMs the mentioned user the written content.
 		const {user, content} = args;
-		if(msg.author.id == `147604925612818432`){
+		if(!this.client.isOwner(msg.author.id)) return msg.say(`This command is only for Lex and dm!`);
 			msg.delete();
 			user.send(content);
-		} else {msg.say(`Excuse me who do you think you are`);}
 	}
 };

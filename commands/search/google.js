@@ -27,7 +27,6 @@ module.exports = class ReplyCommand extends Command {
             json: true
         }).then((response) => {
             let item = response.items[1];
-            //console.log(Object.keys(response));
             msg.say(`**${item.title}**\n${item.link}`);
         });
         

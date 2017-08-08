@@ -36,6 +36,7 @@ Ink.registry
 		['moderation','Moderation commands'],
 		['search','Search commands'],
 		['reaction','Reaction commands'],
+		['misc', 'Miscellaneous commands'],
 		['owner', 'Owner commands']
 	])
 	.registerDefaultGroups()

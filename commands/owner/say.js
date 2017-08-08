@@ -20,9 +20,8 @@ module.exports = class SayCommand extends Command {
 
 	async run(msg,args) { //Echos the written content.
 		const { text } = args;
-		if(msg.author.id == `147604925612818432`){
-			msg.delete();
-			return msg.say(`\u180E${text}`);
-		} else {msg.say(`Excuse me who do you think you are`);}
+		if(!this.client.isOwner(msg.author.id)) return msg.say(`This command is only for Lex and dm!`);
+		msg.delete();
+		return msg.say(`\u180E${text}`);
 	}
 };
