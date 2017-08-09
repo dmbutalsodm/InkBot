@@ -10,6 +10,8 @@ module.exports = class ReplyCommand extends Command {
             group: 'search',
             memberName: 'google',
             description: 'Google search for the given query.',
+            format: '<query>',
+            examples: ['1google <query>'],
             args: [
                 {
                     key: "query",

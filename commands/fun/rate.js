@@ -8,6 +8,9 @@ module.exports = class ReplyCommand extends Command {
             group: 'fun',
             memberName: 'rate',
             description: 'Rates a thing from 1-10',
+            examples: ["1rate Fountain pens", "1rate Ink"],
+            details: "Takes the query you give it, and rates it between 1 and 10.",
+            format: "<query>",
             args: [
                 {
                     key: "query",

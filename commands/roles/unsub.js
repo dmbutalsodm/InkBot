@@ -9,7 +9,9 @@ module.exports = class SayCommand extends Command {
 			group: 'roles',
 			memberName: 'unsub', 
 			description: 'Used to unsubscribe from a role.',
-			examples: ['unsub [role name]'],
+			format: '<role>',
+			examples: ['1unsub <role name>'],
+			details: 'If the selected role is on the sublist for this guild, this command unsubscribes you from it.',
 			guildOnly: true,
 			args:[
 				{

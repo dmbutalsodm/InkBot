@@ -10,6 +10,8 @@ module.exports = class ReplyCommand extends Command {
             name: 'youtube',
             group: 'search',
             memberName: 'youtube',
+            details: 'Searches for a video on YouTube.',
+            format: '<query>',
             description: 'Search for a YouTube video.',
             aliases: ['video', 'yt'],
             args: [

@@ -8,7 +8,8 @@ module.exports = class ReplyCommand extends Command {
 			group: 'fun',
 			memberName: 'onlygoodsong',
 			description: 'Gives you options with which to listen to the only good song there is.',
-			examples: ['onlygoodsong']
+			examples: ['1onlygoodsong'],
+			details: "Spotify, YouTube, and Genius links to XO TOUR Llif3."
 		});
 	}
 

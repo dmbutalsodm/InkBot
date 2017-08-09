@@ -10,6 +10,8 @@ module.exports = class ReplyCommand extends Command {
 			memberName: 'channelban',
 			description: 'Toggles Ink ban in the channel this command is used in.',
 			guildOnly: true,
+			examples: ['1channelban'],
+			details: 'Toggles the channel ban. When the channel ban is engaged, Ink will not respond to commands that are run in that channel.'
 		});
 	}
 

@@ -9,7 +9,9 @@ module.exports = class SayCommand extends Command {
 			group: 'roles',
 			memberName: 'subable', 
 			description: 'Used to manage which roles are subscribable.',
-			examples: ['subable add [role name]'],
+			examples: ['1subable add <role name>', '1subable remove <role name>'],
+			format: '<option> <role>',
+			details: 'This command is used to add or remove roles to the sublist for the guild. Roles on the sublist can be subscribed to with the `sub` command.',
 			guildOnly: true,
 			args:[
 					{

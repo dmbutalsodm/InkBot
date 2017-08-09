@@ -8,7 +8,8 @@ module.exports = class ReplyCommand extends Command {
 			group: 'fun',
 			memberName: 'funfact',
 			description: 'Gives a fun fact, curated by Lex.',
-			examples: ['funfact']
+			details: 'Gives a fun fact, curated by Lex.',
+			examples: ['1funfact'],
 		});
 	}
 

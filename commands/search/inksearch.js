@@ -10,7 +10,9 @@ module.exports = class ReplyCommand extends Command {
             group: 'search',
             memberName: 'inksearch',
             description: 'Search for an ink sample.',
-            examples: ['inksearch Baystate blue'],
+            details: 'Searches for a sample page of an ink if it\'s in the database',
+            format: '<query>',
+            examples: ['1inksearch Baystate blue'],
             args: [
                 {
                     key: "query",

@@ -6,8 +6,10 @@ module.exports = class ReplyCommand extends Command {
 			name: 'kick',
 			group: 'moderation',
 			memberName: 'kick',
-			description: 'Bans the user you mention, requires confirmation.',
+            description: 'Kicks the selected user.',
+            details: 'Kicks the selected user.',
             examples: ['kick <Annoying Adolescent>'],
+            format: '<member>',
             guildOnly: true,
             args:[
                     {
@@ -15,18 +17,12 @@ module.exports = class ReplyCommand extends Command {
                         prompt:"Which user would you like to kick?",
                         type:"user",
                     },
-                    {
-                        key: "reason",
-                        prompt: "lalalalala",
-                        type:"string",
-                        default: ''
-                    }
             ]
             
 		});
 	}
 
-	async run(msg, args) { 	
+	async run(msg, args) {
         if(!msg.member.hasPermission("KICK_MEMBERS")) return msg.say("You don't have permission to kick members!");
         
         const { user, reason } = args;

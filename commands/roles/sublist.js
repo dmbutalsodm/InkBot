@@ -9,7 +9,8 @@ module.exports = class SayCommand extends Command {
 			group: 'roles',
 			memberName: 'sublist', 
 			description: 'Used to list roles you can subscribe to.',
-			examples: ['sublist'],
+			details: 'Used to list the roles that are able to be subscribed to in this guild.',
+			examples: ['1sublist'],
 			guildOnly: true,
 		});
 	}

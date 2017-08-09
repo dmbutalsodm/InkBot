@@ -32,12 +32,11 @@ start();
 Ink.registry
 	.registerDefaultTypes()
 	.registerGroups([
-		['fun', 'Fun commands'],
-		['roles','Role commands'],
 		['moderation','Moderation commands'],
+		['roles','Role commands'],
 		['search','Search commands'],
-		['reaction','Reaction commands'],
 		['misc', 'Miscellaneous commands'],
+		['fun', 'Fun commands'],
 		['owner', 'Owner commands']
 	])
 	.registerDefaultGroups()

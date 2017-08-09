@@ -9,7 +9,9 @@ module.exports = class ReplyCommand extends Command {
             name: 'wikipedia',
             group: 'search',
             memberName: 'wikipedia',
-            description: 'Grab a wikipedia article for the given query.',
+            description: 'Search for an article on Wikipedia.',
+            details: 'Searches for an article on Wikipedia by title.',
+            format: '<query>',
             args: [
                 {
                     key: "query",

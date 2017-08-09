@@ -6,8 +6,10 @@ module.exports = class ReplyCommand extends Command {
 			name: 'ban',
 			group: 'moderation',
 			memberName: 'ban',
-			description: 'Bans the user you mention, requires confirmation.',
-            examples: ['ban <Malicious Man>'],
+            description: 'Bans the selected user.',
+            details: 'Bans the selected user. They\'re banned instantly and without confirmation, so pick carefully.',
+            examples: ['1ban <Malicious Man>'],
+            format: "<member>",
             guildOnly: true,
             args:[
                     {
@@ -17,7 +19,7 @@ module.exports = class ReplyCommand extends Command {
                     },
                     {
                         key: "reason",
-                        prompt: "lalalalala",
+                        prompt: "You should never see this.",
                         type:"string",
                         default: ''
                     }
@@ -29,8 +31,9 @@ module.exports = class ReplyCommand extends Command {
 	async run(msg, args) { 	
         if(!msg.member.hasPermission("BAN_MEMBERS")) return msg.say("You don't have permission to ban members!");
         
-        const { user, reason } = args;
+        var { user, reason } = args;
         msg.guild.members.get(`${user.id}`).ban(0, reason);
-        return msg.say(`**🔨 ${user.username}** has been banned for **${reason}**.`)
+        if(reason.substring(0,4) == 'for ') reason = reason.substring(4);
+        return msg.say(`**🔨 ${user.username}** has been banned${reason == '' ? `` : ` for **` + reason + `**`}.`);
 	}
 };

@@ -6,8 +6,9 @@ module.exports = class SayCommand extends Command {
 			name: 'say',
 			group: 'owner',
 			memberName: 'say',
-			description: 'Says what\'s provided.',
-			examples: ['say Hi there!'],
+			description: 'Says what\'s provided. Owner only.',
+			examples: ['1say Hi there!'],
+			format: '<message>',
 			args:[
 				{
 					key: `text`,

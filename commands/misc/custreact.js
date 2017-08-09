@@ -7,14 +7,17 @@ module.exports = class ReplyCommand extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'custreact',
-			group: 'reaction',
+			group: 'misc',
 			memberName: 'custreact',
-			description: 'Adds a custom reaction using a trigger and content. Put both the trigger and the phrase in quotes.',
+			description: 'Adds a custom reaction using a trigger and content.',
+			details: 'Command for custom reactions. For a given input, the bot will say a given output. Use `add` with content and a trigger, remove and a trigger, or list.\nPut both the trigger and content in quotes.',
 			guildOnly: true,
+			format: `<add/remove/list> "<trigger>" "<content>"`,
+			examples: [`1custreact add "Baystate blue" "Is the best ink available"`, `1custreact remove "Baystate blue"`, `1custreact list`],
 			args: [
 				{
 					key: 'option',
-					prompt: 'Would you like to add or remove a subscribable role?',
+					prompt: 'Would you like to add or remove a custom reaction, or list available ones?',
 					type: 'string',
 					default: ''
 				},

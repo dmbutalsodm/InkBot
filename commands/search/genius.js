@@ -13,6 +13,9 @@ module.exports = class ReplyCommand extends Command {
             group: 'search',
             memberName: 'genius',
             description: 'Search for a song on Genius.',
+            details: 'Searches for a song on Genius by title. Searching by lyrics sometimes works but is not guaranteed.',
+            format: '<query>',
+            examples: ['1genius <query>'],
             args: [
                 {
                     key: "query",

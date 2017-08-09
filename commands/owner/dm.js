@@ -6,8 +6,10 @@ module.exports = class SayCommand extends Command {
 			name: 'dm',
 			group: 'owner',
 			memberName: 'dm',
-			description: 'Sends a message to the user you mention.',
-			examples: ['dm @User Hi there!'],
+			description: 'Sends a message to the user you mention. Owner only.',
+			details: 'Sends a message to the user you mention. Owner only.',
+			format: '<member> <message>',
+			examples: ['1dm Lex Hello!'],
 			guildOnly: true,
 			args: [
 					{

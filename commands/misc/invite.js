@@ -7,8 +7,9 @@ module.exports = class ReplyCommand extends Command {
 			name: 'invite',
 			group: 'misc',
 			memberName: 'invite',
-			description: 'Gives an invite link to invite Ink to your server.',
-			examples: ['invite']
+			description: 'Gives a link to add Ink to your server.',
+			examples: ['1invite'],
+			details: 'Gives a link to add Ink to your server.'
 		});
 	}
 

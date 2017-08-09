@@ -15,6 +15,8 @@ module.exports = class SayCommand extends Command {
 			group: 'owner',
 			memberName: 'restart',
 			description: 'Pulls any updates and restarts the bot',
+			details: 'Pulls the latest update from github and restarts Ink. Owner only.',
+			examples: ['1restart'],
 		});    
 	}
 

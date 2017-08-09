@@ -9,7 +9,8 @@ module.exports = class SayCommand extends Command {
 			group: 'roles',
 			memberName: 'sub', 
 			description: 'Used to subscribe to a role.',
-			examples: ['sub [role name]'],
+			details: 'If the selected role is on the sublist for this guild, this command subscribes you to it.',
+			examples: ['1sub <role>'],
 			guildOnly: true,
 			args:[
 				{
