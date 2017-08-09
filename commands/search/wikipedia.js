@@ -6,14 +6,14 @@ const secure = require('../../secure.json')
 module.exports = class ReplyCommand extends Command {
     constructor(client) {
         super(client, {
-            name: 'google',
+            name: 'wikipedia',
             group: 'search',
-            memberName: 'google',
-            description: 'Google search for the given query.',
+            memberName: 'wikipedia',
+            description: 'Grab a wikipedia article for the given query.',
             args: [
                 {
                     key: "query",
-                    prompt: "What would you like to search for?",
+                    prompt: "What would you like to search Wikipedia for?",
                     type: "string"
                 }
             ]
@@ -23,7 +23,7 @@ module.exports = class ReplyCommand extends Command {
 	async run(msg, args) { 
         const { query } = args;
         request({
-            uri: `https://www.googleapis.com/customsearch/v1?key=${secure.apiTokens.google}&cx=${secure.apiTokens.google_main_cx}&q=${query}`,
+            uri: `https://www.googleapis.com/customsearch/v1?key=${secure.apiTokens.google}&cx=${secure.apiTokens.google_wikipedia_cx}&q=${query}`,
             json: true
         }).then((response) => {
             let item = response.items[0];

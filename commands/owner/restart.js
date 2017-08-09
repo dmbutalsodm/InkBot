@@ -21,6 +21,7 @@ module.exports = class SayCommand extends Command {
 	async run(msg, args) { //DMs the mentioned user the written content.
 		const {user, content} = args;
 		if(!this.client.isOwner(msg.author.id)) return msg.say(`This command is only for Lex and dm!`);
+        msg.say("I'm dying.");
         child.exec('git pull', (err, stdout, stderr) => { //runs git pull, then runs the callback, which is to exit the process.
             console.log(err);
             console.log(stdout);

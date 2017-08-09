@@ -72,7 +72,7 @@ Ink.on('message', async (message) => {
 
 Ink.dispatcher.addInhibitor(msg => { //the inhibitor will allow commands if it gets returned 'false' but if it gets 'true' the command is blocked.
 	if(msg.command){	
-		if(msg.command.name == 'channelban'|| msg.channel.type == 'dm') return false; //The channelban is automatically allowed to pass
+		if(msg.command.name == 'channelban'|| msg.channel.type == 'dm') return false; //The channelban is automatically allowed to pass, same with DM commands.
 		if(Array.from(Ink.registry.groups.get("owner").commands.keys()).includes(msg.command.name)) return false; //Owner commands are automatically allowed to pass.
 		var test = channelBansArray.find(obj => { //cache from the db of channelbans.
 			if(obj.guildID == `${msg.guild.id}d` || obj.channelID == `${msg.channel.id}d`) return obj; //if the object exists in the array this finds it and returns it
