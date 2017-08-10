@@ -13,6 +13,7 @@ module.exports = {
 				await db.run("CREATE TABLE IF NOT EXISTS roles (guildID STRING, roleID STRING);");
 				await db.run("CREATE TABLE IF NOT EXISTS customreactions (guildID STRING, trigger STRING, content STRING);");
 				await db.run("CREATE TABLE IF NOT EXISTS channelbans (guildID STRING, channelID STRING);");
+				await db.run("CREATE TABLE IF NOT EXISTS guildmuteroles (guildID STRING, roleID STRING);");
 				resolve(db);
 			} catch (ex) {
 				reject(ex);

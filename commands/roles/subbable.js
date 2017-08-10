@@ -31,6 +31,7 @@ module.exports = class SayCommand extends Command {
 	async run(msg,args) {
 		const { option,role } = args;
 		var db = database.get(); //Literally no idea what this does, Lex.
+		if(!msg.guild.me.hasPermission("MANAGE_ROLES")) return msg.say("I don't have permission to manage roles!");
 		if(!msg.member.hasPermission("MANAGE_ROLES")) return msg.say("You don't have permission to manage roles!"); //If the user can't manage roles, message is returned.
 		switch(option.toLowerCase()){
 			case "add":

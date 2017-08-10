@@ -69,6 +69,7 @@ Ink.on('message', async (message) => {
 	message.channel.send(reactionObject.content);
 });
 
+
 Ink.dispatcher.addInhibitor(msg => { //the inhibitor will allow commands if it gets returned 'false' but if it gets 'true' the command is blocked.
 	if(msg.command){	
 		if(msg.command.name == 'channelban'|| msg.channel.type == 'dm') return false; //The channelban is automatically allowed to pass, same with DM commands.

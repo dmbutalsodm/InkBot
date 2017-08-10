@@ -30,10 +30,13 @@ module.exports = class ReplyCommand extends Command {
 
 	async run(msg, args) { 	
         if(!msg.member.hasPermission("BAN_MEMBERS")) return msg.say("You don't have permission to ban members!");
-        
         var { user, reason } = args;
-        msg.guild.members.get(`${user.id}`).ban(0, reason);
-        if(reason.substring(0,4) == 'for ') reason = reason.substring(4);
-        return msg.say(`**🔨 ${user.username}** has been banned${reason == '' ? `` : ` for **` + reason + `**`}.`);
-	}
+        msg.guild.members.get(`${user.id}`).ban(0, reason).then((x) => { //permission has/promise accepted
+            if(reason.substring(0,4) == 'for ') reason = reason.substring(4); 
+            return msg.say(`**🔨 ${user.username}** has been banned${reason == '' ? `` : ` for **` + reason + `**`}.`);
+        }, (x) => { //no permission/promise rejected
+            return msg.say("I don't have permission for this!");
+        });
+        
+	};
 };
