@@ -29,19 +29,19 @@ module.exports = class ReplyCommand extends Command {
 		if(!msg.member.hasPermission("MANAGE_MESSAGES")) return msg.say("You don't have permission to manage messages!"); //Permissio   ns check, line above too
 
         var db = database.get();
-        var existTest = await db.all(`SELECT * FROM guildmuteroles WHERE guildID = '${msg.guild.id}d'`);
-        var existRole = existTest[0].roleID.substring(0,existTest[0].roleID.length-1);
-        if(existTest.length > 0) {
-            if(msg.guild.roles.find('id', existRole) == null) { 
-                db.run(`DELETE FROM guildmuteroles WHERE guildID = '${msg.guild.id}d';`);
-                return msg.say('Run this command again, and do not delete the Ink Mute role.');
+        var existTest = await db.all(`SELECT * FROM guildmuteroles WHERE guildID = '${msg.guild.id}d'`); //get the muterole for this server
+        if(existTest.length > 0) var existRole = existTest[0].roleID.substring(0,existTest[0].roleID.length-1); //if the muterole exists, get the id
+        if(existTest.length > 0) { //if has stuff
+            if(msg.guild.roles.find('id', existRole) == null) { //this block deletes the entry from the db if the role doesnt exist
+                db.run(`DELETE FROM guildmuteroles WHERE guildID = '${msg.guild.id}d';`); //meaning if the role was deleted, it's still in the db but doesnt exist
+                return msg.say('Run this command again, and do not delete the Ink Mute role.'); //don't delete it, thanks.
             }
         }
-        if(msg.guild.members.get(user.id).roles.get(existRole)) {
-            msg.guild.members.get(user.id).removeRole(existRole);
+        if(msg.guild.members.get(user.id).roles.get(existRole)) { //if getrole exists (they have the role)
+            msg.guild.members.get(user.id).removeRole(existRole); //remove the role
             return msg.say(`**${user.username}** is no longer muted.`);
         }
-        return msg.say(`**${user.username}** cannot be unmuted, because they were not already muted.`)
+        return msg.say(`**${user.username}** cannot be unmuted, because they were not already muted.`) //if it doesnt exist on them, say they weren't
         
 	}
 };
