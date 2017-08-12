@@ -25,10 +25,9 @@ module.exports = class SayCommand extends Command {
 	
 	async run(msg,args) {
 		const { role } = args;
-		var db = database.get();
-		var roleList = await db.all(`SELECT roleID FROM roles WHERE guildID = '${msg.guild.id}d'`); //Gets all the roles that're in the table from this guild as an object
-		roleList = roleList.map((x) => {return x.roleID}); //Turns the objects to just an an array with role IDs
-		if(!roleList.includes(role.id+'d')) return msg.say("You cannot unsubscribe from this role!"); 
+		var provider = this.client.provider;
+		var roleList = provider.get(msg.guild, 'subableRoles', []); //Grabs all the subable roles in the db from this guild as an array.		
+		if(!roleList.includes(role.id)) return msg.say(`You cannot unsubscribe from **${role.name}**!`); //If the role ID isn't in the array.
 		msg.member.removeRole(role.id).then(() => { 
 			return msg.say(`You've unsubscribed from **${role.name}**.`); //Sends this regardless.
 		}).catch((x) => {

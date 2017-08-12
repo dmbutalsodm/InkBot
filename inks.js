@@ -867,7 +867,9 @@ module.exports = {
         for(let i = 0;i<names.length;i++) {
             inks[names[i]] = links[i]; //Grabs the first item in 'names', and makes that the key to the first link, then second, etc. Brackets are used for dynamic notation.
         }
+    },
+    randomInk: () => {
+        return names[Math.floor(Math.random() * names.length)];
     }
-    
 }
 

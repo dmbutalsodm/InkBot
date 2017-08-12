@@ -14,6 +14,6 @@ module.exports = class ReplyCommand extends Command {
 	}
 
 	async run(msg) { 	
-		msg.say(`Invite me to your server by clicking this link:\n<https://discordapp.com/oauth2/authorize?client_id=328716679171276800&scope=bot&permissions=2080374975>`);
+		msg.say(`Invite me to your server by clicking this link:\n<https://discordapp.com/oauth2/authorize?client_id=328716679171276800&scope=bot&permissions=472935615`);
 	}
 };

@@ -37,5 +37,5 @@ module.exports = class ReplyCommand extends Command {
 		} 
         var random = Math.floor(Math.random() * (Object.keys(greetings).length));
         msg.say(greetings[random]);
-    	}
+    }
 };

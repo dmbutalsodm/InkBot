@@ -30,19 +30,22 @@ module.exports = class SayCommand extends Command {
 
 	async run(msg,args) {
 		const { option,role } = args;
-		var db = database.get(); //Literally no idea what this does, Lex.
-		if(!msg.guild.me.hasPermission("MANAGE_ROLES")) return msg.say("I don't have permission to manage roles!");
+		var settingsProvider = this.client.provider;
+		if(!msg.guild.me.hasPermission("MANAGE_ROLES")) return msg.say("I don't have permission to manage roles!"); //If Ink cant manage roles message is returned.
 		if(!msg.member.hasPermission("MANAGE_ROLES")) return msg.say("You don't have permission to manage roles!"); //If the user can't manage roles, message is returned.
 		switch(option.toLowerCase()){
 			case "add":
-				var testForRoleInDB = await db.all(`SELECT roleID FROM roles WHERE roleID = '${role.id}d' AND guildID = '${msg.guild.id}d';`);//Checks if the role exists in the db.
-				if(testForRoleInDB.length > 0) return msg.say("This role is already subscribable!"); //It does.
-				db.run(`INSERT INTO roles (roleID, guildID) VALUES ('${role.id}d', '${msg.guild.id}d');`); //If it doesn't, it's added to the db.
+				if(settingsProvider.get(msg.guild, 'subableRoles', []).includes(role.id)) return msg.say("This role is already subscribable!"); //Checks if the role exists in the db.
+				let toBePushed = settingsProvider.get(msg.guild, 'subableRoles', []);
+				toBePushed.push(role.id);
+				settingsProvider.set(msg.guild, 'subableRoles', toBePushed); //In the settings provider, set subableRoles for this guild to equal current subable roles PLUS the new role.
 				msg.say(`The role **${role.name}** is now available to subscribe to.`);
 				break;
 			case "remove": //2 options for removing with fall-through.
 			case "delete":
-				db.run(`DELETE FROM roles WHERE roleID='${role.id}d' AND guildID = '${msg.guild.id}d';`); //Deletes the role from the table if it exists.
+				let toBePushedRemove = settingsProvider.get(msg.guild, 'subableRoles', []);
+				toBePushedRemove.splice(toBePushedRemove.indexOf(role.id),1); //Removes the role from the array if it exists, does nothing if it doesn't.
+				settingsProvider.set(msg.guild, 'subableRoles', toBePushedRemove); //sets the setting to equal the current array.
 				msg.say(`The role **${role.name}** is not able to be subscribed to.`); //Sends this regardless if it exists or not. 
 				break;
 			default: msg.say("That isn't a valid option.");

@@ -2,8 +2,11 @@ const path               = require('path');
 const secure             = require('./secure.json');
 const database           = require('./database.js');
 const { CommandoClient } = require('discord.js-commando');
-const db = database.get();
-const inks = require('./inks.js');
+const db                 = database.get();
+const inks               = require('./inks.js');
+const sqlite             = require('sqlite');
+const Commando           = require('discord.js-commando');
+const timers             = require('timers');
 
 module.exports = {
 	customReactionsArrayPush: async (obj) => {
@@ -50,7 +53,8 @@ Ink.on(`ready`, async () => {
 	//These are for caches.
 	customReactionsArray = await database.customReactionDatabaseSync();
 	channelBansArray     = await database.channelBansDatabaseSync();
-	Ink.user.setGame('Pilot Iroshizuku Kon-Peki');
+	Ink.user.setGame(inks.randomInk());
+	timers.setInterval(() => Ink.user.setGame(inks.randomInk()), 600000);
 	inks.inkDBBuild();
 	console.log(`I\'m feeling great and ready exist!!!`); //when the boye is ready he lets us know
 });
@@ -83,3 +87,8 @@ Ink.dispatcher.addInhibitor(msg => { //the inhibitor will allow commands if it g
 		return true; //if test is defined, it fails the if, meaning theres a matching channel that's banned, the command isn't allwed to run.
 	}
 });
+
+
+Ink.setProvider(
+    sqlite.open(path.join(__dirname, 'settings.sqlite')).then(settingsProvider => new Commando.SQLiteProvider(settingsProvider))
+).catch(console.error);

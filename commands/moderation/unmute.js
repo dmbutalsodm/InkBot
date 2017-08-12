@@ -28,12 +28,11 @@ module.exports = class ReplyCommand extends Command {
         if(!msg.guild.me.hasPermission("MANAGE_ROLES")) return msg.say("I don't have permission to manage roles!");
 		if(!msg.member.hasPermission("MANAGE_MESSAGES")) return msg.say("You don't have permission to manage messages!"); //Permissio   ns check, line above too
 
-        var db = database.get();
-        var existTest = await db.all(`SELECT * FROM guildmuteroles WHERE guildID = '${msg.guild.id}d'`); //get the muterole for this server
-        if(existTest.length > 0) var existRole = existTest[0].roleID.substring(0,existTest[0].roleID.length-1); //if the muterole exists, get the id
-        if(existTest.length > 0) { //if has stuff
+        var settingsProvider = this.client.provider;
+        var existRole = await settingsProvider.get(msg.guild, 'mute role id');
+        if(existRole) { //if the role exists for this guild in the settingsProvider.
             if(msg.guild.roles.find('id', existRole) == null) { //this block deletes the entry from the db if the role doesnt exist
-                db.run(`DELETE FROM guildmuteroles WHERE guildID = '${msg.guild.id}d';`); //meaning if the role was deleted, it's still in the db but doesnt exist
+                settingsProvider.remove(msg.guild, 'mute role id'); //meaning if the role was deleted, it's still in the db but doesnt exist
                 return msg.say('Run this command again, and do not delete the Ink Mute role.'); //don't delete it, thanks.
             }
         }
@@ -41,7 +40,7 @@ module.exports = class ReplyCommand extends Command {
             msg.guild.members.get(user.id).removeRole(existRole); //remove the role
             return msg.say(`**${user.username}** is no longer muted.`);
         }
-        return msg.say(`**${user.username}** cannot be unmuted, because they were not already muted.`) //if it doesnt exist on them, say they weren't
+        return msg.say(`**${user.username}** cannot be unmuted, because they were not already muted.`); //if it doesnt exist on them, say they weren't
         
 	}
 };
