@@ -38,34 +38,36 @@ module.exports = class ReplyCommand extends Command {
 	}
 
 	async run(msg,args) {
-		const { option,trigger,content } = args;
-		var db = database.get();
+		const { option, trigger, content } = args;
+		var provider = this.client.provider;
 		if(option == '') return msg.say("You must select an option...");
 		switch(option.toLowerCase()){ 
 				case "add":
-					if(content == ''  || trigger == '') return msg.say("Your reaction content can't be empty..."); //Because of default arguments, detecting an empty trigger or content when adding is necessary.
-					var testIfCustomReactionExists = await db.all(`SELECT trigger FROM customreactions WHERE guildID='${msg.guild.id}d' AND trigger = '${trigger}'`); // This line and the next are to test if a trigger already exists in the database.
-					if(testIfCustomReactionExists.length > 0) return msg.say(`There is already a reaction with the trigger **${trigger}**...`);
-					db.run(`INSERT INTO customreactions (guildID, trigger, content) VALUES ('${msg.guild.id}d', '${trigger}', '${content}');`); //If the trigger doesn't exist, the custom reaction is added to the db.
-					index.customReactionsArrayPush({ //Function imported from index.js, adds object to the CACHE.
-						guildID: `${msg.guild.id}d`,
-						trigger: `${trigger}`, 
-						content: `${content}`
+					if(trigger == '' || content == '') return msg.say("Your reaction content can't be empty..."); //Because of default arguments, detecting an empty trigger or content when adding is necessary.
+					var testIfCustomReactionExists = provider.get(msg.guild, 'customReactions', []).find((x) => {if(x.trigger == trigger) return x}); //if a reaction with the trigger exists already in this guild,
+					if(testIfCustomReactionExists) return msg.say(`There is already a reaction with the trigger **${trigger}**...`); //return the error
+					var toBePushed = provider.get(msg.guild, 'customReactions', []);
+					toBePushed.push({
+						trigger: trigger,
+						content: content
 					});
+					provider.set(msg.guild, 'customReactions', toBePushed);
 					return msg.say(`Reaction added, **${trigger}** will cause me to say **${content}**.`);
 					break;
 
 				case "remove": //3 acceptable options to delete using fall-through.
 				case "delete":
 				case    "del":
-					var testIfCustomReactionExists = await db.all(`SELECT trigger FROM customreactions WHERE guildID='${msg.guild.id}d' AND trigger = '${trigger}'`); //Sees if the trigger exists in the db.
-					if(testIfCustomReactionExists.length == 0) return msg.say(`There are no custom reactions with the trigger **${trigger}**...`); //Does not exist.
-					db.run(`DELETE FROM customreactions WHERE guildID='${msg.guild.id}d' AND trigger = '${trigger}';`); //If it does exist, the row is deleted.
-					msg.say(`Reaction deleted, I'll no longer respond to ${trigger}.`);
-					return index.rebuildCustomReactionsArray(); //Function from index.js, tells it to build the cache again from the database.
+					var testIfCustomReactionExists = provider.get(msg.guild, 'customReactions', []).find((x) => {if(x.trigger == trigger) return x}); //if a reaction with the trigger exists already in this guild,
+					if(!testIfCustomReactionExists) return msg.say(`There are no custom reactions with the trigger **${trigger}**...`); //Does not exist.
+					var toBePushedDelete = provider.get(msg.guild, 'customReactions', []); //gets all the custom reactions for this guild
+					var toDelete = toBePushedDelete.find((x) => {if(x.trigger == trigger) return x}); //This finds the object that has to be deleted from the custreactions
+					toBePushedDelete.splice(toBePushedDelete.indexOf(toDelete),1); //deletes the object
+					provider.set(msg.guild, 'customReactions', toBePushedDelete); //re-sets the custom reactions array
+					msg.say(`Reaction deleted, I'll no longer respond to **${trigger}**.`);
 					break;
 				case   "list": //Lists the triggers in the guild.
-					var triggerArrayOfObjects = await db.all(`SELECT trigger FROM customreactions WHERE guildID='${msg.guild.id}d'`); //This is bad, redo. These 3 lines grab the all the triggers in this guild, and put them in an array.
+					var triggerArrayOfObjects = provider.get(msg.guild, 'customReactions', []); //These 3 lines grab the all the triggers in this guild, and put them in an array.
 					var triggerArray = [] 
 					triggerArrayOfObjects.forEach((x) => {triggerArray.push(x.trigger)});
 					if(triggerArray.length == 0) return msg.say(`There are no custom reaction triggers in **${msg.guild.name}**.`); //No triggers response.
