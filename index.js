@@ -81,6 +81,6 @@ Ink.dispatcher.addInhibitor(msg => { //the inhibitor will allow commands if it g
 });
 
 
-Ink.setProvider(
-    sqlite.open(path.join(__dirname, 'settings.sqlite')).then(settingsProvider => new Commando.SQLiteProvider(settingsProvider))
+Ink.setProvider( //makes the settingsprovider connection
+    sqlite.open(path.join(__dirname, 'settings.sqlite')).then(settingsProvider => new Commando.SQLiteProvider(settingsProvider)) 
 ).catch(console.error);

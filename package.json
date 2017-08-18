@@ -17,6 +17,7 @@
     "lodash": "^4.17.4",
     "request-promise": "^4.2.1",
     "simple-youtube-api": "^2.1.0",
-    "sqlite": "^2.8.0"
+    "sqlite": "^2.8.0",
+    "striptags": "^3.0.1"
   }
 }
