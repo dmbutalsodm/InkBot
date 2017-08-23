@@ -38,6 +38,7 @@ Ink.registry
 		['moderation','Moderation commands'],
 		['roles','Role commands'],
 		['search','Search commands'],
+		['channel', 'Channel commands'],
 		['misc', 'Miscellaneous commands'],
 		['fun', 'Fun commands'],
 		['owner', 'Owner commands']
@@ -47,11 +48,12 @@ Ink.registry
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
 
-
+var loggedStarredMessages = [];
 
 Ink.on(`ready`, async () => {
 	Ink.user.setGame(inks.randomInk());
 	timers.setInterval(() => Ink.user.setGame(inks.randomInk()), 600000);
+	timers.setInterval(() => {loggedStarredMessages = [];}, 259200000)
 	inks.inkDBBuild();
 	console.log(`I\'m feeling great and ready exist!!!`); //when the boye is ready he lets us know
 });
@@ -70,6 +72,45 @@ Ink.on('message', async (message) => {
 	if(toSay) return message.channel.send(toSay.content);
 });
 
+Ink.on('messageReactionAdd', (messageReactionObject, user) => {
+	if(messageReactionObject.message.author == Ink.user) return;
+	if(loggedStarredMessages.includes(messageReactionObject.message.id)) return; //if the message was starred in the past three days ignore it
+	if(messageReactionObject.message.channel.type == 'dm') return; //if the star in in DMs ignore it
+	percentageToPercentify = Number(Ink.provider.get(messageReactionObject.message.guild, 'starboardPercentage', .05)) / 100;
+	if(messageReactionObject.emoji.name == "⭐" && messageReactionObject.count >= Math.floor(messageReactionObject.message.guild.memberCount * percentageToPercentify)) { //if the emote is star and the count is above 5% of members OR the server set percent
+		let channelToMessage = messageReactionObject.message.guild.channels.find("id", Ink.provider.get(messageReactionObject.message.guild, 'starboardChannel', 'failedToFind')); //see if a starboard channel exists on this server
+		if(!channelToMessage) return; //if it doesnt ignore it
+		messageReactionObject.message.react("🚀"); //if the post will go to the starboard, react with a rocket
+		loggedStarredMessages.push(messageReactionObject.message.id); //add the message to the already logged array
+		let msg = messageReactionObject.message;
+		channelToMessage.send('🚀 A new rocket is landing in 30 seconds! 🚀').then((message) => message.delete(30000));
+		timers.setTimeout(function () {
+			channelToMessage.send(
+				{embed: {
+					color: 14215552,
+					author: {
+						name: msg.author.username,
+						icon_url: msg.author.avatarURL
+					},
+					"image": {
+						"url": msg.attachments.first() ? msg.attachments.first().url : ''
+					},
+					title: `New starred post from ${messageReactionObject.message.author.username}!`,
+					fields: [
+						{
+							name: "Content:",
+							value: `${msg.content ? msg.content : "(This message had a shocking lack of text content)"}`
+						},
+					],	
+					"footer": {
+						"icon_url": "https://emojipedia-us.s3.amazonaws.com/thumbs/120/twitter/103/white-medium-star_2b50.png",
+						"text": messageReactionObject.message.reactions.get('%E2%AD%90').count
+					}		
+				}}
+			);
+		}, 30000);
+	}	
+});
 
 Ink.dispatcher.addInhibitor(msg => { //the inhibitor will allow commands if it gets returned 'false' but if it gets 'true' the command is blocked.
 	if(msg.command){	

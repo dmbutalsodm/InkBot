@@ -4,7 +4,6 @@ const rp = require('request');
 const api = require('genius-api');
 const secure = require('../../secure.json');
 var genius = new api(secure.apiTokens.genius);
-const lyrics = require('../../standalone.js');
 const request = require('request');
 const striptags = require('striptags');
 
@@ -33,7 +32,9 @@ module.exports = class ReplyCommand extends Command {
 	async run(msg,args) {     
         const { query } = args; 
         genius.search(query).then(function(response) {
-            var bangbang = response.hits[0].result;
+            var bangbang = response.hits[0];
+            if(!bangbang){return msg.say('I didn\'t find a line...')}
+            bangbang = bangbang.result;
             var url = `https://genius.com${bangbang.path}`
         
             request({
@@ -41,15 +42,14 @@ module.exports = class ReplyCommand extends Command {
             }, (error, response, body) => {
                 var memes = body;
                 memes = striptags(memes);
-                var regex = /(\[chorus\]|\[intro\]|\[verse 1\]|\[verse\]|\[pre-chorus\])/i
-                if(!memes) return 'There is no internet connection...';
+                var regex = /(\[chorus\]|\[intro\]|\[verse 1\]|\[verse\]|\[pre-chorus\])/i;
                 var prefix = regex.exec(memes);
                 memes = memes.replace(/(\[chorus\]|\[intro\]|\[verse 1\]|\[verse\]|\[pre-chorus\])/i, '[STRING TO CUT WITH]')
                 .replace('More on Genius', '[STRING TO CUT WITH]')
                 .split('[STRING TO CUT WITH]');
                 memes = memes[1];
                 memes = memes.replace(/\n{3,}|\r{3,}|\s{3,}/g, '');
-                memes = memes.replace(/(\[chorus.+]|\[intro\]|\[verse.+]|\[pre-chorus\]|\n\n|\[outro.+])/gi, '');
+                memes = memes.replace(/(\[chorus.+]|\[intro\]|\[verse.+]|\[pre-chorus\]|\n\n|\[outro.+]|\[hook.+])/gi, '');
                 var sendBack;
                 prefix == null ? sendBack = memes : sendBack = (prefix[1] + memes);
                 sendBack = sendBack.split('\n');
