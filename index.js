@@ -47,14 +47,13 @@ Ink.registry
 	.registerDefaultCommands() //default commands like help and a bunch of other garbage
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
-
+var loggedStarredMessages = []; //declared here so it's global in the file
 
 
 Ink.on(`ready`, async () => {
 	Ink.user.setGame(inks.randomInk());
 	timers.setInterval(() => Ink.user.setGame(inks.randomInk()), 600000);
 
-	var loggedStarredMessages = [];
 	timers.setInterval(() => {loggedStarredMessages = [];}, 259200000); //Messages that get starred won't go to the starboard twice if the message is less than three days old.
 
 	inks.inkDBBuild();
