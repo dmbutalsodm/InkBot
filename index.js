@@ -48,12 +48,15 @@ Ink.registry
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
 
-var loggedStarredMessages = [];
+
 
 Ink.on(`ready`, async () => {
 	Ink.user.setGame(inks.randomInk());
 	timers.setInterval(() => Ink.user.setGame(inks.randomInk()), 600000);
-	timers.setInterval(() => {loggedStarredMessages = [];}, 259200000)
+
+	var loggedStarredMessages = [];
+	timers.setInterval(() => {loggedStarredMessages = [];}, 259200000); //Messages that get starred won't go to the starboard twice if the message is less than three days old.
+
 	inks.inkDBBuild();
 	console.log(`I\'m feeling great and ready exist!!!`); //when the boye is ready he lets us know
 });
@@ -73,7 +76,7 @@ Ink.on('message', async (message) => {
 });
 
 Ink.on('messageReactionAdd', (messageReactionObject, user) => {
-	if(messageReactionObject.message.author == Ink.user) return;
+	if(messageReactionObject.message.author == Ink.user) return; //if Ink gets starred, it's ignored.
 	if(loggedStarredMessages.includes(messageReactionObject.message.id)) return; //if the message was starred in the past three days ignore it
 	if(messageReactionObject.message.channel.type == 'dm') return; //if the star in in DMs ignore it
 	percentageToPercentify = Number(Ink.provider.get(messageReactionObject.message.guild, 'starboardPercentage', .05)) / 100;
@@ -83,8 +86,8 @@ Ink.on('messageReactionAdd', (messageReactionObject, user) => {
 		messageReactionObject.message.react("🚀"); //if the post will go to the starboard, react with a rocket
 		loggedStarredMessages.push(messageReactionObject.message.id); //add the message to the already logged array
 		let msg = messageReactionObject.message;
-		channelToMessage.send('🚀 A new rocket is landing in 30 seconds! 🚀').then((message) => message.delete(30000));
-		timers.setTimeout(function () {
+		channelToMessage.send('🚀 A new rocket is landing in 30 seconds! 🚀').then((message) => message.delete(30000)); //sends a message that'll be deleted to the starboard channel, that the message is coming.
+		timers.setTimeout(function () { //after 30 seconds, the embed is sent, the timer is to let any final stars come in.
 			channelToMessage.send(
 				{embed: {
 					color: 14215552,
@@ -93,22 +96,22 @@ Ink.on('messageReactionAdd', (messageReactionObject, user) => {
 						icon_url: msg.author.avatarURL
 					},
 					"image": {
-						"url": msg.attachments.first() ? msg.attachments.first().url : ''
+						"url": msg.attachments.first() ? msg.attachments.first().url : '' //if an attachment exists, add it to the embed
 					},
-					title: `New starred post from ${messageReactionObject.message.author.username}!`,
+					title: `New starred post from ${messageReactionObject.message.author.username}!`, 
 					fields: [
 						{
 							name: "Content:",
-							value: `${msg.content ? msg.content : "(This message had a shocking lack of text content)"}`
+							value: `${msg.content ? msg.content : "(This message had a shocking lack of text content)"}` //Because the text cannot be empty.
 						},
 					],	
 					"footer": {
-						"icon_url": "https://emojipedia-us.s3.amazonaws.com/thumbs/120/twitter/103/white-medium-star_2b50.png",
-						"text": messageReactionObject.message.reactions.get('%E2%AD%90').count
+						"icon_url": "https://emojipedia-us.s3.amazonaws.com/thumbs/120/twitter/103/white-medium-star_2b50.png", //star emote
+						"text": messageReactionObject.message.reactions.get('%E2%AD%90').count //Final reaction count.
 					}		
 				}}
 			);
-		}, 30000);
+		}, 30000); //Wait for 30s.
 	}	
 });
 
