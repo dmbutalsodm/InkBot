@@ -106,7 +106,7 @@ Ink.on('messageReactionAdd', (messageReactionObject, user) => {
 					],	
 					"footer": {
 						"icon_url": "https://emojipedia-us.s3.amazonaws.com/thumbs/120/twitter/103/white-medium-star_2b50.png", //star emote
-						"text": messageReactionObject.message.reactions.get('%E2%AD%90').count //Final reaction count.
+						"text": `${messageReactionObject.message.reactions.get('%E2%AD%90') ? messageReactionObject.message.reactions.get('%E2%AD%90').count : "0"}` //Final reaction count.
 					}		
 				}}
 			);
