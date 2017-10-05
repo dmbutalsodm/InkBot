@@ -6,6 +6,7 @@ const secure = require('../../secure.json')
 module.exports = class ReplyCommand extends Command {
     constructor(client) {
         super(client, {
+            aliases: ['search'],
             name: 'google',
             group: 'search',
             memberName: 'google',
