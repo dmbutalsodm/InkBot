@@ -4,6 +4,7 @@ const { CommandoClient } = require('discord.js-commando');
 const Commando           = require('discord.js-commando');
 const databaseClass      = require('./database.js');
 const sqlite             = require('sqlite');
+const afk                = require('./utils/afk.js');
 
 const Ink = new CommandoClient({
 	owner: ['296895991985078272', '147604925612818432'],
@@ -30,9 +31,6 @@ Ink.registry
 	.registerDefaultCommands() //default commands like help and a bunch of other garbage
 	.registerCommandsIn(path.join(__dirname, 'commands'));
 
-
-
-
 Ink.on(`ready`, async () => {
 	setInterval(() => {loggedStarredMessages = [];}, 259200000); //Messages that get starred won't go to the starboard twice if the message is less than three days old.
 	console.log(`I\'m feeling great and ready exist!!!`); //when the boye is ready he lets us know
@@ -42,6 +40,14 @@ async function start() {
 	Ink.login(secure.token); //logs the bot in obv, nice try caelum
 	databaseClass.start();
 }
+
+Ink.on('message', async (msg) => {
+	if(msg.channel.type != 'dm' && msg.member != msg.guild.me && !msg.member.bot) {
+        afk.unAFK(msg);
+        if(msg.mentions.users.get(msg.member.id)) return;
+        if(msg.mentions.users.keyArray().length > 0) afk.checkMentions(msg, msg.mentions.users);
+    }
+});
 
 Ink.on('message', async (message) => {
 	if(message.author.bot) return;

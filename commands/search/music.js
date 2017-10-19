@@ -1,10 +1,18 @@
+/*
+THIS COMMAND IS DEPRECIATED AND DOESN'T WORK ANYMORE, IT WAS REPLACED BY THE "MUSIC" COMMAND GROUP.
+AAAAAAAA
+CAPITAL LETTERS
+I DONT WANNA DELETE IT BECAUSE IT TOOK A LOT OF WORK.
+*/
+
+
+
 const { Command } = require('discord.js-commando');
 const secure      = require('../../secure.json')
 const YouTube     = require('youtube-node');
 const youtube     = new YouTube();
 youtube.setKey(secure.apiTokens.youtube);
 const ytdl        = require('ytdl-core');
-const index       = require('../../utils/musicQueue.js');
 const { stripIndents } = require('common-tags');
 
 //npm install youtube-node ytdl-core ffmpeg-binaries opusscript --save
@@ -16,8 +24,8 @@ module.exports = class ReplyCommand extends Command {
 			name: 'music',
 			group: 'search',
 			memberName: 'music',
-			description: 'General command for playing music in a voice channel with Yui.',
-			details: stripIndents`
+			description: "This command is depreciated. Use the music command suite now.", //'General command for playing music in a voice channel with Ink.',
+			/*details: stripIndents`
 			There are several sub-commands available:\n
 			\`play\`: Searches for your query and plays a song or adds it to the queue.
 			\`skip\`: Skips the currently playing song.
@@ -25,11 +33,11 @@ module.exports = class ReplyCommand extends Command {
 			\`clear\`: Clears the queue.
 			\`shuffle\`: Shuffles the queue.
 			\`remove\`: Removes the number song you indicate from the queue.
-			\`resume\`: Resumes the queue if Yui left due to inactivity.
+			\`resume\`: Resumes the queue if Ink left due to inactivity.
 			\`fix\`: If the bot restarts in the middle of a song, this command will begin the queue again, you should almost never have to use this.		
-			`,
+			`, */
 			format: '<option> [query]',
-			examples: ['Yui music play XO TOUR Llif3', 'Yui music play <https://www.youtube.com/watch?v=9hyCBjrY3eA>','Yui music skip', 'Yui music queue', 'Yui music clear', 'Yui music shuffle', 'Yui music remove 2', 'Yui music resume' ],
+			examples: ['Ink music play XO TOUR Llif3', 'Ink music play <https://www.youtube.com/watch?v=9hyCBjrY3eA>','Ink music skip', 'Ink music queue', 'Ink music clear', 'Ink music shuffle', 'Ink music remove 2', 'Ink music resume' ],
 			guildOnly: true,
 			throttling: {
 				usages: 3,
@@ -54,6 +62,9 @@ module.exports = class ReplyCommand extends Command {
 	}
 
 	async run(msg, args) {
+
+		return msg.say("This command is depreciated. Use the music command suite now.");
+
 		var { query, option } = args;
 		if(!msg.guild.me.hasPermission("CONNECT"))                            return msg.say("❌ | I don't have permission to join voice on this server.");
 		if(!msg.guild.me.hasPermission("SPEAK"))                              return msg.say("❌ | I don't have permission to speak in voice on this server.");
@@ -155,7 +166,7 @@ module.exports = class ReplyCommand extends Command {
 				return msg.say("✅ | The queue has been cleared.");
 			}
 			case "help": {
-				return msg.say("⚠ | Type `Yui help music` for help.");
+				return msg.say("⚠ | Type `Ink help music` for help.");
 			}
 			case "shuffle": {
 				let array = await index.getQueue(msg);
@@ -210,7 +221,7 @@ module.exports = class ReplyCommand extends Command {
 			title != "fixcommand" ? msg.say(`ℹ | Now playing: **${title}**`) : msg.say(`✅ | Fixing playback.`);
 			dispatcher.on('end', async (reason) => {
 				if(reason == "inactivity") {
-					msg.say("⚠ | I have left the channel due to inactivity, but the queue has been saved. Use `Yui music resume` to resume.")
+					msg.say("⚠ | I have left the channel due to inactivity, but the queue has been saved. Use `Ink music resume` to resume.")
 					return connection.disconnect();
 				}
 				if(await index.getQueue(msg).length == 0) {
@@ -244,7 +255,7 @@ module.exports = class ReplyCommand extends Command {
 		msg.say(`ℹ | Now playing: **${nextStream.title}**`)	;
 		dispatcher.on('end', async (reason) => {
 			if(reason == "inactivity") {
-				msg.say("⚠ | I have left the channel due to inactivity, but the queue has been saved. Use `Yui music resume` to resume.")
+				msg.say("⚠ | I have left the channel due to inactivity, but the queue has been saved. Use `Ink music resume` to resume.")
 				return connection.disconnect();
 			}			
 			return this.continueStream(msg, connection);

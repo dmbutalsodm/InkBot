@@ -72,7 +72,7 @@ module.exports = class PlayCommand extends Command {
 	}
 	
 	async startStream(msg, song) {
-		setInterval(function() {inactivityDetectionFn(this, msg)}, 10000);
+		let inAC = setInterval(function() {inactivityDetectionFn(this, msg)}, 10000);
 		let stream = ytdl(`https://www.youtube.com/watch?v=${song.id}`, {quality: "highest", filter : 'audioonly'});
 		msg.member.voiceChannel.textChannel = msg;
 		msg.member.voiceChannel.textChannel.say(`🎵 | Now playing: **${song.title}**`);
@@ -80,6 +80,7 @@ module.exports = class PlayCommand extends Command {
 		msg.member.voiceChannel.join().then((connection) => {
 			let dispatcher = connection.playStream(stream);
 			dispatcher.on('end', async (reason) => {
+				clearInterval(inAC);
 				if(reason == "inactivityormuted") {
 					msg.say("⚠ | I have left the channel due to inactivity, but the queue has been saved. Use `Yui music resume` to resume.")  
 					delete connection.channel.textChannel;
@@ -97,12 +98,13 @@ module.exports = class PlayCommand extends Command {
 	}
 
 	async continueStream(msg, song, connection) {
-		setInterval(function() {inactivityDetectionFn(this, msg)}, 10000);
+		let inAC = setInterval(function() {inactivityDetectionFn(this, msg)}, 10000);
 		let stream = ytdl(`https://www.youtube.com/watch?v=${song.id}`, {quality: "highest", filter : 'audioonly'});
-		msg.member.voiceChannel.textChannel.say(`🎵 | Now playing: **${song.title}**`);
-		msg.member.voiceChannel.nowPlaying = song;
+		msg.guild.voiceConnection.voiceChannel.textChannel.say(`🎵 | Now playing: **${song.title}**`);
+		msg.guild.voiceConnection.voiceChannel.nowPlaying = song;
 		let dispatcher = connection.playStream(stream);
 		dispatcher.on('end', async (reason) => {
+			clearInterval(inAC);
 			if(reason == "inactivityormuted") {
 				msg.say("⚠ | I have left the channel due to inactivity, but the queue has been saved. Use `Yui resume` to resume.")  
 				delete connection.channel.textChannel;
